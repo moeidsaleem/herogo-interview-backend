@@ -2,10 +2,10 @@ import { Service, Inject } from "typedi";
 import config from "../config";
 
 import { randomBytes } from "crypto";
-import { ISample, ISampleInput } from "../interfaces/ISample";
+import { IUser, IUserInput } from "../interfaces/IUser";
 
 @Service()
-export default class SampleService {
+export default class UserService {
   constructor(@Inject("logger") private logger) {}
 
   public async PrintSampleInfo(): Promise<{ response: any }> {

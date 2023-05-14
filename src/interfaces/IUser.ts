@@ -1,4 +1,4 @@
-export interface ISample {
+export interface IUser {
   id: number;
   firstName: string;
   lastName: string;
@@ -8,7 +8,7 @@ export interface ISample {
   salt: string;
 }
 
-export interface ISampleInput {
+export interface IUserInput {
   firstName: string;
   lastName: string;
   email: string;

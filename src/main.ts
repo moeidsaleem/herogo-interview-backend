@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 import express from "express";
 import config from "./config/index";
 import Logger from "./lib/logger";
@@ -34,7 +36,7 @@ async function startServer() {
        |x/      mrf\\ >			      ⚡️|	      Version: ${process.env.VERSION}                    |⚡️
        |x)         / '.			      ⚡️|	    Ready now on port: ${config.port}             |⚡️
        |x\\       _(____''.__                  ⚡️|	    Author: ${process.env.AUTHOR}           |⚡️
-     --\\ -\\--");                              ⚡️| Hire Me: ${process.env.AUTHOR_URL}  |⚡️
+     --\\ -\\--");                           
       --\\__|--"); 
 
     `);
