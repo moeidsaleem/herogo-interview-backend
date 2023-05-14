@@ -31,7 +31,6 @@ model Product {
   category    String?
   createdAt   DateTime?   @default(now())
   updatedAt   DateTime?   @updatedAt
-  orderItem   OrderItem[]
 }
 
 model Order {
@@ -40,28 +39,9 @@ model Order {
   createdAt DateTime?   @default(now())
   updatedAt DateTime?   @updatedAt
   user      User        @relation(fields: [userId], references: [id])
-  orderItem OrderItem[]
-  invoice   Invoice?
+
 }
 
-model OrderItem {
-  id        Int       @id @default(autoincrement())
-  orderId   Int
-  productId Int
-  quantity  Int
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
-  order     Order     @relation(fields: [orderId], references: [id])
-  product   Product   @relation(fields: [productId], references: [id])
-}
-
-model Invoice {
-  id        Int       @id @default(autoincrement())
-  orderId   Int       @unique
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
-  order     Order     @relation(fields: [orderId], references: [id])
-}
 
 enum Role {
   USER

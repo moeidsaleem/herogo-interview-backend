@@ -17,13 +17,7 @@ export default class OrderService {
         where: {
           ...params,
         },
-        include: {
-          orderItem: {
-            include: {
-              product: true,
-            },
-          }
-        },
+       
       });
       return orders;
     } catch (e) {
@@ -38,9 +32,7 @@ export default class OrderService {
         where: {
           id,
         },
-        include: {
-          orderItem: true,
-        },
+      
       });
       return order;
     } catch (e) {
@@ -60,19 +52,8 @@ export default class OrderService {
 
       const order = await this.prisma.order.create({
         data: {
-          userId,
-          orderItem: {
-            createMany: {
-              data: orderItems.map(({ productId, quantity }) => ({
-                productId,
-                quantity,
-              })),
-            },
-          },
-        },
-        include: {
-          orderItem: true,
-        },
+          user: {}
+        }
       });
 
       return order;

@@ -20,13 +20,6 @@ let OrderService = class OrderService {
                 where: {
                     ...params,
                 },
-                include: {
-                    orderItem: {
-                        include: {
-                            product: true,
-                        },
-                    }
-                },
             });
             return orders;
         }
@@ -40,9 +33,6 @@ let OrderService = class OrderService {
             const order = await this.prisma.order.findUnique({
                 where: {
                     id,
-                },
-                include: {
-                    orderItem: true,
                 },
             });
             return order;
@@ -59,19 +49,8 @@ let OrderService = class OrderService {
             }
             const order = await this.prisma.order.create({
                 data: {
-                    userId,
-                    orderItem: {
-                        createMany: {
-                            data: orderItems.map(({ productId, quantity }) => ({
-                                productId,
-                                quantity,
-                            })),
-                        },
-                    },
-                },
-                include: {
-                    orderItem: true,
-                },
+                    user: {}
+                }
             });
             return order;
         }
