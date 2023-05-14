@@ -12,7 +12,7 @@
     "start": "npx ts-node src/main.ts --respawn ",
     "dev": "tsc && ts-node-dev --respawn --exit-child --transpile-only  ./src/main.ts --watch --debug",
     "prod": "tsc && node ./dist/app.js",
-    "db:push": "prisma db push"
+    "db": "prisma db push"
   },
   "repository": {
     "type": "git",

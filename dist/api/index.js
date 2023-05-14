@@ -7,12 +7,14 @@ const express_1 = require("express");
 const auth_1 = __importDefault(require("./routes/auth"));
 const product_1 = __importDefault(require("./routes/product"));
 const order_1 = __importDefault(require("./routes/order"));
+const cart_1 = __importDefault(require("./routes/cart"));
 // guaranteed to get dependencies
 exports.default = () => {
     const app = (0, express_1.Router)();
     (0, auth_1.default)(app);
     (0, product_1.default)(app);
     (0, order_1.default)(app);
+    (0, cart_1.default)(app);
     // shop(app);
     return app;
 };

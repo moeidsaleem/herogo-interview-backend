@@ -13,7 +13,7 @@ CREATE TABLE "Product" (
     "title" TEXT NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
     "description" TEXT NOT NULL,
-    "imageUrl" TEXT NOT NULL,
+    "image" TEXT NOT NULL,
     "category" TEXT,
     "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
