@@ -2,13 +2,13 @@ import { Router} from "express";
 import { Container } from "typedi";
 
 import CartService from "../../services/cart";
+import { celebrate, Joi } from "celebrate";
 
 const route = Router();
 
 export default (app: Router) => {
   app.use("/cart", route);
   const cartServiceInstance = Container.get(CartService);
-
 
   // get all carts
   route.get("/", async (req, res) => {
@@ -20,31 +20,33 @@ export default (app: Router) => {
     }
   });
 
-  
   // add the product to the cart
-  route.post("/", async (req, res) => {
+  route.post("/",
+  celebrate({
+    body:{
+      userId: Joi.number().required(),
+      products: Joi.array().items(Joi.object({
+        id: Joi.number().required(),
+        price: Joi.number().required(),
+        image: Joi.string().required()
+      }))
+    }
+  })
+, async (req, res) => {
     try {
       const { userId,data } = req.body;
-      console.log("userId", userId);
-      if (!userId) {
-        return res.json({ error: "userId is required" });
-      }
       const order = await cartServiceInstance.createCart(userId, data);
-      console.log("order", order);
       return res.json(order);
     } catch (e) {
       console.log("e", e);
       return res.json(e);
     }
   });
-  
 
-  // update quantity of product in cart
+  /*  Update the Cart */
   route.put("/", async (req, res) => {
     try {
       const { userId, data } = req.body;
-      console.log("userId", userId);
-      console.log("cart", data);
       const order = await cartServiceInstance.updateCart(userId, data);
       return res.json(order);
     } catch (e) {
@@ -52,11 +54,11 @@ export default (app: Router) => {
     }
   });
 
-  route.get("/:id", async (req, res) => {
+  // Remove the products from the cart
+  route.delete("/:id", async (req, res) => {
     try {
-      const { id } = req.params;
-      const order = await cartServiceInstance.getCartById(Number(id));
-
+      const { id } = req.params; /* id of the product */
+      const order = await cartServiceInstance.deleteProductFromCart(Number(id));
       return res.json(order);
     } catch (e) {
       console.log("e", e);

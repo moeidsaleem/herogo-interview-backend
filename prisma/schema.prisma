@@ -32,6 +32,7 @@ model Product {
   category    String?
   createdAt   DateTime? @default(now())
   updatedAt   DateTime? @updatedAt
+  cart        Cart[]
 }
 
 model Order {
@@ -44,11 +45,11 @@ model Order {
 
 model Cart {
   id        Int       @id @default(autoincrement())
-  userId    Int       @unique
+  userId    Int?       @unique
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
-  user      User      @relation(fields: [userId], references: [id])
-  products Json
+  user      User?      @relation(fields: [userId], references: [id])
+  products  Product[]
 }
 
 enum Role {

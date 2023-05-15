@@ -38,17 +38,36 @@ let CartService = class CartService {
             throw e;
         }
     }
+    // create cart or update the cart if already exists (Add a product to the cart.)
     async createCart(userId, products) {
         try {
-            const cart = await this.prisma.cart.create({
-                data: {
-                    userId: 1,
-                    products: {
-                        create: products
-                    }
+            const cartExist = await this.prisma.cart.findFirst({
+                where: {
+                    userId,
                 },
             });
-            return cart;
+            if (cartExist) {
+                const cart = await this.prisma.cart.update({
+                    where: {
+                        id: cartExist.id,
+                    },
+                    data: {
+                        products: {
+                            create: products,
+                        },
+                    },
+                });
+                return cart;
+            }
+            const cartData = await this.prisma.cart.create({
+                data: {
+                    userId,
+                    products: {
+                        create: products,
+                    },
+                },
+            });
+            return cartData;
         }
         catch (e) {
             console.log("e", e);
@@ -64,6 +83,25 @@ let CartService = class CartService {
                 },
                 data: {
                     ...cartInput,
+                },
+            });
+            return cart;
+        }
+        catch (e) {
+            console.log("e", e);
+            throw e;
+        }
+    }
+    async deleteProductFromCart(productId) {
+        try {
+            const cart = await this.prisma.cart.deleteMany({
+                where: {
+                    userId: 1,
+                    products: {
+                        some: {
+                            id: productId,
+                        }
+                    }
                 },
             });
             return cart;

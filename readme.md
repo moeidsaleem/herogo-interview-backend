@@ -1,9 +1,21 @@
 
-![Nodejs Doctrine 2023 Boilerplate](https://mir-s3-cdn-cf.behance.net/project_modules/fs/bbefa799786133.5efa9bf3d1b49.gif)
 
-# Ultimate Nodejs Boilerplate Code 2023
+# HeroGO - Ecommerce Backend Solution
 
-This boilerplate is the latest version of Doctrine 2021 boilerplate code. If you are looking to start a Nodejs project with typescript, their are tons of things that need to be setup to run a successful project. Having 3 layer architecture in mind, this allows you to integrate libraries easily. I have also added Agenda for Type Di (DI) alongside Agendda for job scheduling. You can replace them with Bee, Bull or Bree as per your requirements. 
+The HeroGO Ecommerce Backend Solution is a robust platform designed to facilitate various ecommerce functionalities, including product fetching, adding items to the cart, and removing items from the cart. This backend solution offers a scalable and efficient architecture to meet the requirements of small projects.
+
+
+
+## Archicture
+
+To ensure a well-structured and maintainable codebase, I have implemented a 3-layer architecture for this backend solution. This architectural approach, which I originally developed in 2020, optimizes the organization of code and promotes code reusability. You can find detailed information about this architecture in an article I wrote, available at the following link: Node.js Doctrine 2020.
+
+## Note
+
+It's important to note that my implementation primarily focuses on maintaining the user's cart data for logged-in users, considering the presence of multiple users and a database. While this may not be the ideal scenario for a logged-out user, a more optimal approach would involve utilizing a caching layer, storing cart data in localStorage, and synchronizing it with Redis instead of a database.
+
+Although I can integrate this backend solution with the provided frontend, for the purpose of this test, I believe it's sufficient to showcase my approach and demonstrate my understanding of the required functionalities.
+
 
 ## Getting Started
 
@@ -18,6 +30,7 @@ To start using Node.js Doctrine 2023 boilerplate is very easy with these simple 
 
 - Node.js v18.x
 - Typescript
+- Postgres
 
 ### Libraries
 
@@ -25,16 +38,11 @@ To start using Node.js Doctrine 2023 boilerplate is very easy with these simple 
 - TypeDI (dependency injector)
 - winston ( logging )
 - celebrate (Validation)
+- Prisma (ORM)
+- Mocha 
+- Chai (for assertion)
+- Supertest
 
+# Testing
 
-
-## Contributors
-
-<img src="https://www.moeidsaleem.com/assets/images/moeidsaleem.jpeg" width="120" height="120" style="border-radius:300px" />
-
-
-
-## ABOUT AUTHOR
-
-I am Moeid Saleem Khan, World leading Software Architect with over 300+ projects in production. I provide consultancy to startups and mentor CTO to make the right choice. I have developed a 90 days startup bootup plan which will set your startup's IT Infrastructure in the right direction and can enter the market. Learn more about me by googling - "Moeid Saleem"
-Connect with me via <https://moeidsaleem.com>
+For code coverage, I have written basic unit tests using Mocha with Chai for assertion.
