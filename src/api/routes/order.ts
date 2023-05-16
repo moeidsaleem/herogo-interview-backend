@@ -38,6 +38,7 @@ export default (app: Router) => {
   }
   );
 
+  
   route.post("/", async (req, res) => {
     try {
       const userId = req.body.userId;

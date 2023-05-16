@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const typedi_1 = require("typedi");
 const cart_1 = __importDefault(require("../../services/cart"));
+const celebrate_1 = require("celebrate");
 const route = (0, express_1.Router)();
 exports.default = (app) => {
     app.use("/cart", route);
@@ -21,15 +22,19 @@ exports.default = (app) => {
         }
     });
     // add the product to the cart
-    route.post("/", async (req, res) => {
+    route.post("/", (0, celebrate_1.celebrate)({
+        body: {
+            userId: celebrate_1.Joi.number().required(),
+            products: celebrate_1.Joi.array().items(celebrate_1.Joi.object({
+                id: celebrate_1.Joi.number().required(),
+                price: celebrate_1.Joi.number().required(),
+                image: celebrate_1.Joi.string().required()
+            }))
+        }
+    }), async (req, res) => {
         try {
             const { userId, data } = req.body;
-            console.log("userId", userId);
-            if (!userId) {
-                return res.json({ error: "userId is required" });
-            }
             const order = await cartServiceInstance.createCart(userId, data);
-            console.log("order", order);
             return res.json(order);
         }
         catch (e) {
@@ -37,12 +42,10 @@ exports.default = (app) => {
             return res.json(e);
         }
     });
-    // update quantity of product in cart
+    /*  Update the Cart */
     route.put("/", async (req, res) => {
         try {
             const { userId, data } = req.body;
-            console.log("userId", userId);
-            console.log("cart", data);
             const order = await cartServiceInstance.updateCart(userId, data);
             return res.json(order);
         }
@@ -50,10 +53,11 @@ exports.default = (app) => {
             return res.json(e);
         }
     });
-    route.get("/:id", async (req, res) => {
+    // Remove the products from the cart
+    route.delete("/:id", async (req, res) => {
         try {
-            const { id } = req.params;
-            const order = await cartServiceInstance.getCartById(Number(id));
+            const { id } = req.params; /* id of the product */
+            const order = await cartServiceInstance.deleteProductFromCart(Number(id));
             return res.json(order);
         }
         catch (e) {

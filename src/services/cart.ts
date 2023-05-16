@@ -3,6 +3,7 @@ import { Service } from "typedi";
 import { PrismaClient } from "@prisma/client";
 import { createDecipheriv } from "crypto";
 
+
 @Service()
 export default class CartService {
   constructor() {} // @Inject('logger') private logger,
@@ -31,37 +32,38 @@ export default class CartService {
       throw e;
     }
   }
+
+  // create cart or update the cart if already exists (Add a product to the cart.)
   public async createCart(userId: number, products: any): Promise<any> {
     try {
-       // check if cart already exists
-    const cartExists = await this.prisma.cart.findFirst({
-      where: {
-        userId,
-      },
-    });
-
-
-    const actionType = cartExists ? "update" : "create" || "create";
-
-    if (actionType === "create") {
-      const cart = await this.prisma.cart.create({
-        data: {
-          userId,
-          products,
-        },
-      });
-      return cart;
-    } else {
-      const cart = await this.prisma.cart.update({
+      const cartExist = await this.prisma.cart.findFirst({
         where: {
           userId,
         },
+      });
+      if (cartExist) {
+        const cart = await this.prisma.cart.update({
+          where: {
+            id: cartExist.id,
+          },
+          data: {
+            products: {
+              create: products,
+            },
+          },
+        });
+        return cart;
+      }
+
+      const cartData = await this.prisma.cart.create({
         data: {
-          products,
+          userId,
+          products: {
+            create: products,
+          },
         },
       });
-      return cart;
-    }
+      return cartData;
     } catch (e) {
       console.log("e", e);
       throw e;
@@ -85,6 +87,30 @@ export default class CartService {
       throw e;
     }
   }
+
+
+
+  public async deleteProductFromCart(productId: number): Promise<any> {
+    try {
+      const cart = await this.prisma.cart.deleteMany({
+        where: {
+          userId:1, /* Please note that this require more work */
+          products: {
+            some: {
+              id: productId,
+            }
+          }
+        },
+      });
+      return cart;
+    
+    
+  }catch(e){
+    console.log("e", e);
+    throw e;
+  }
+
+}
 
   public async deleteCart(id: number): Promise<any> {
     try {
